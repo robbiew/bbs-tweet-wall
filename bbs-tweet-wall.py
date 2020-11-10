@@ -21,8 +21,9 @@
 # auth_key: rzfBFE92u2HCZIYs8rABO87YM
 # auth_secret:VUKqHesLLtbwxk76KC9NroSmJvHdUcHKZuzCg5lsT5uOZtsUQD
 #
-# Install Python 3, Pip3 and python libraries, e.g:
-#   "sudo apt-get python3 pip3"
+# Install python libraries:
+#   "sudo apt-get python3"
+#   "sudo apt install python3-pip"
 #   "pip3 install tweepy"
 #   "pip3 install unidecode"
 #
@@ -46,6 +47,8 @@ import textwrap
 from unidecode import unidecode
 import time
 import random
+import timeago
+import datetime
 
 # main config file
 config = ConfigParser.ConfigParser()
@@ -124,10 +127,13 @@ def list_tweets(current_list, list_id_str):
                 'config', 'list_' + list_id_str + '_name_color')
             footer_color = config.get(
                 'config', 'list_' + list_id_str + '_footer_color')
+            date_color = config.get(
+                'config', 'date_color')
 
-            favs = footer_color + f"{status.favorite_count}"
-            rts = footer_color + f"|16{status.retweet_count}"
-            followers = footer_color + f"{status.user.followers_count}"
+            favs = footer_color + f"+ favorited: {status.favorite_count}"
+            rts = footer_color + f"+ retweeted: {status.retweet_count}"
+            # followers = footer_color + \
+            #     f"+ followers: {status.user.followers_count}"
 
             screen_name = name_color + f"@{status.user.screen_name}"
             screen_name_wrap = textwrap.fill(
@@ -137,16 +143,18 @@ def list_tweets(current_list, list_id_str):
             body_wrap = textwrap.fill(
                 unidecode(tweet_body), width=tweet_width,  max_lines=tweet_lines)
 
-            tweet_date = name_color + f" {status.created_at}"
+            tweet_date = f"{status.created_at}"
 
-            # Save each tweet name + body to a temp file (e.g "tweet0.tmp")
+            time = pretty_date(tweet_date)
+
+            # Save each tweet name + body to a temp file (e.g "tweet0.")
             # ADD: write from memory to skip tjos
-            tweet_file = output_dir + '/tweets_' + side + '.tmp'
+            tweet_file = 'tweets_' + side + '.ans'
             textFile_tweet = open(tweet_file, 'w+',
                                   encoding='cp437', errors='replace')
 
             textFile_tweet.write(screen_name_wrap)
-            textFile_tweet.write("\n|16|15\n")
+            textFile_tweet.write("\n\n|16|15\n")
             textFile_tweet.write(body_wrap)
             textFile_tweet.close()
 
@@ -155,15 +163,15 @@ def list_tweets(current_list, list_id_str):
             x_body = config.get('config', 'list_pos_x')
             x_favs = config.get('config', 'list_pos_x_favs')
             x_rts = config.get('config', 'list_pos_x_rts')
-            x_followers = config.get('config', 'list_pos_x_followers')
+            # x_followers = config.get('config', 'list_pos_x_followers')
             y = config.get('config', 'list_' + list_id_str + '_pos_y')
 
             # Send content off to the write function
             write_tweet_body(int(x_body), int(y), tweet_file)
-            write_footer(int(x_date), int(y), tweet_date, 0)
-            write_footer(int(x_favs), int(y), favs, 11)
-            write_footer(int(x_rts), int(y), rts, 11)
-            write_footer(int(x_followers), int(y), followers, 11)
+            write_footer(int(x_date), int(y), date_color + time, 0)
+            write_footer(int(x_favs), int(y), favs, 0)
+            write_footer(int(x_rts), int(y), rts, 0)
+            # write_footer(int(x_followers), int(y), followers, 0)
 
 # Write out starting at X coord. and increment for each line
 
@@ -177,20 +185,26 @@ def write_tweet_body(x_body, y, tweet_file):
 
 
 # We write the footer content line by line, so no need to increment here
-
-
 def write_footer(x_footer, y, footer, offset):
     y_adjust = y+offset
     textFile.write("\x1b7\x1b[%d;%df%s\x1b8" % (x_footer, y_adjust, footer))
 
 
+def pretty_date(time):
+    date = time
+    pretty_date = (timeago.format(date))
+
+    print(pretty_date)
+    return pretty_date
+
+
 # tidy up!
 def end():
     textFile.close()
-    print("Removing *.tmp files...")
-    for f in glob.glob("*.tmp"):
-        os.remove(f)
-    print("Done! Created: " + output_file)
+    # print("Removing *.tmp files...")
+    # for f in glob.glob(output_dir + "/*.tmp"):
+    #     os.remove(f)
+    # print("Done! Created: " + output_file)
 
 
 def main():
