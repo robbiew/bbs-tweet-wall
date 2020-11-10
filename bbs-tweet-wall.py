@@ -148,8 +148,8 @@ def list_tweets(current_list, list_id_str):
             time = pretty_date(tweet_date)
 
             # Save each tweet name + body to a temp file (e.g "tweet0.")
-            # ADD: write from memory to skip tjos
-            tweet_file = 'tweets_' + side + '.ans'
+            # ADD: write from memory instead of file
+            tweet_file = 'tweets_' + side + '.tmp'
             textFile_tweet = open(tweet_file, 'w+',
                                   encoding='cp437', errors='replace')
 
@@ -201,10 +201,10 @@ def pretty_date(time):
 # tidy up!
 def end():
     textFile.close()
-    # print("Removing *.tmp files...")
-    # for f in glob.glob(output_dir + "/*.tmp"):
-    #     os.remove(f)
-    # print("Done! Created: " + output_file)
+    print("Removing *.tmp files...")
+    for f in glob.glob("*.tmp"):
+        os.remove(f)
+    print("Done! Created: " + output_file)
 
 
 def main():
