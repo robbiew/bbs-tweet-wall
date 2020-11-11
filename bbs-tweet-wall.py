@@ -5,7 +5,7 @@
 # robbiew@gmail.com
 # github: https://github.com/robbiew/bbs-tweet-wall
 #
-# BBS Tweet Wall returns 3 random tweets from 3 defined Twitter lists.
+# BBS Tweet Wall returns 2 random tweets from 2 defined Twitter lists.
 #
 # Define your lists and other settings in bbs-tweet-wall.cfg
 #
