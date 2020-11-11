@@ -1,6 +1,7 @@
 # bbs-tweet-wall
-Python script that creates an ANSI file using Twitter lists.
-Returns 3 random tweets from 3 defined Twitter lists.
+Python script that creates an ANSI file using Twitter lists for display on your BBS.
+It returns 2 random tweets from 2 defined Twitter lists.
+In this case, it's Left and Right political timelines.
 Use this as a BBS logon or logoff screen? <shrugs>
 
 Define your lists and other settings in bbs-tweet-wall.cfg.
@@ -20,7 +21,7 @@ auth_secret: xxxxx
   "sudo apt install python3-pip"
   "pip3 install tweepy unidecode timeago colorama "
 
-3. Run this script as a cron event, or using a BBS event (e.g. at login).
+3. Run this script as a cron event (run.sh -- edit file location in this file), or as an event (e.g. at BBS login).
 
 Output file will be "tweets-all.ans" (or .asc, .msg, etc.) in output_dir.
 
