@@ -12,9 +12,9 @@ SETUP
 
 1. create an "auth.cfg" file that looks like this (replace with your own):
 
-[auth]
-auth_key: xxxxx
-auth_secret: xxxxx
+[auth]  
+auth_key: xxxxx  
+auth_secret: xxxxx  
 
 2. Then, install python3 & python libraries:
   "sudo apt install python3" 
