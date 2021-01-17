@@ -213,7 +213,7 @@ def tweets_by_name(name, list_id_str):
         write_footer(int(x_favs), int(y), footer_fg_color +
                      footer_bg_color + footer_style + favs_wrap, 0)
         write_footer(int(x_rts), int(y), rts, 0)
-        # write_footer(int(x_followers), int(y), followers, 0)
+        write_final(23, 0, "")
 
 
 # Write out Twitter User Name at XY coordinates
@@ -237,6 +237,11 @@ def write_tweet_body(x_body, y, tweet_file):
 def write_footer(x_footer, y, footer, offset):
     y_adjust = y+offset
     textFile.write("\x1b7\x1b[%d;%df%s\x1b8" % (x_footer, y_adjust, footer))
+
+# Write out final line
+def write_final(x, y, text):
+    textFile.write("\x1b7\x1b[%d;%df%s\x1b8" % (x, y,  text))
+
 
 # Return dates as friendly "time ago" vs. UTC date stamp
 
