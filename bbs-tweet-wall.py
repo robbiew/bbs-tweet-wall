@@ -109,7 +109,7 @@ def get_list():
 def list_tweets(current_list, list_id_str):
     screen_names = []
     # returns members of a list & some details on them
-    for user in tweepy.Cursor(api.list_members, list_id=current_list, owner_screen_name="robbiew", include_entities=True).items():
+    for user in tweepy.Cursor(api.get_list_members, list_id=current_list, owner_screen_name="robbiew", include_entities=True).items():
         screen_names.append(f"{user.screen_name}")
 
     random.shuffle(screen_names)
